@@ -1,6 +1,7 @@
 import {Holding} from "./holding.ts";
 import {Asset} from "./asset.ts";
 import {Contribution} from "./contribution.ts";
+import {assets} from "../data/data.ts";
 
 export type PortfolioReport = {
     account: string,
@@ -12,6 +13,7 @@ export type PortfolioReport = {
     equity: number,
     fixed: number,
     cash: number,
+    expenseRatio: number,
 };
 
 export class Portfolio {
@@ -36,6 +38,10 @@ export class Portfolio {
 
     assetPrice(symbol: string): number {
         return this.assets.get(symbol)?.price ?? 0;
+    }
+
+    assetExpenses(symbol: string): number {
+        return this.assets.get(symbol)?.expenseRatio ?? 0;
     }
 
     filterByTag(tag: string): Portfolio {
@@ -70,7 +76,23 @@ export class Portfolio {
             equity: equity / value,
             fixed: fixed / value,
             cash: cash / value,
+            expenseRatio: this.expenseRatio(),
         };
     }
 
+    merge(other: Portfolio): Portfolio {
+        return new Portfolio(
+            'Total',
+            this.holdings.concat(other.holdings),
+            this.contributions.concat(other.contributions),
+            assets,
+        );
+    }
+
+    expenseRatio(): number {
+        const expenses = this.holdings.reduce((sum, holding) => {
+            return sum + holding.shares * this.assetPrice(holding.symbol) * this.assetExpenses(holding.symbol);
+        }, 0);
+        return expenses / this.value();
+    }
 }

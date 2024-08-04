@@ -3,11 +3,13 @@ export class Asset {
     symbol: string;
     tags: string[];
     price: number;
+    expenseRatio: number;
 
-    constructor(account: string, tags: string[]) {
+    constructor(account: string, tags: string[], expenseRatio: number = 0) {
         this.symbol = account;
         this.tags = tags;
         this.price = 0;
+        this.expenseRatio = expenseRatio;
     }
 
     async fetchPrice() {
