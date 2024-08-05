@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "dayjs": "^1.11.12",
+    "lodash": "^4.17.21",
     "vue": "^3.4.31"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.7",
     "@vitejs/plugin-vue": "^5.0.5",
     "typescript": "^5.2.2",
     "vite": "^5.3.4",

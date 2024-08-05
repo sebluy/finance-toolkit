@@ -1,7 +1,7 @@
 import {Holding} from "./holding.ts";
 import {Asset} from "./asset.ts";
 import {Contribution} from "./contribution.ts";
-import {assets} from "../data/data.ts";
+import {assets} from "../../data/data.ts";
 
 export type PortfolioReport = {
     account: string,

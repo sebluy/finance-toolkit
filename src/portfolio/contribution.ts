@@ -1,6 +1,6 @@
 import {Dayjs} from "dayjs";
 import dayjs from "dayjs";
-import {Util} from "./Util.ts";
+import {Util} from "./../Util.ts";
 
 export class Contribution {
 
