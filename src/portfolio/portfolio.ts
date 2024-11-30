@@ -19,12 +19,14 @@ export type PortfolioReport = {
 export class Portfolio {
 
     account: string;
+    tags: string[];
     holdings: Holding[];
     contributions: Contribution[];
     assets: Map<string, Asset>;
 
-    constructor(account: string, holdings: Holding[], contributions: Contribution[], assets: Map<string, Asset>) {
+    constructor(account: string, tags: string[], holdings: Holding[], contributions: Contribution[], assets: Map<string, Asset>) {
         this.account = account;
+        this.tags = tags;
         this.holdings = holdings;
         this.contributions = contributions;
         this.assets = assets;
@@ -47,6 +49,7 @@ export class Portfolio {
     filterByTag(tag: string): Portfolio {
         return new Portfolio(
             this.account,
+            this.tags,
             this.holdings.filter((holding) => {
                 return this.assets.get(holding.symbol)?.tags.includes(tag);
             }),
@@ -83,6 +86,7 @@ export class Portfolio {
     merge(other: Portfolio): Portfolio {
         return new Portfolio(
             'Total',
+            this.tags.concat(other.tags),
             this.holdings.concat(other.holdings),
             this.contributions.concat(other.contributions),
             assets,
@@ -95,4 +99,10 @@ export class Portfolio {
         }, 0);
         return expenses / this.value();
     }
+
+    update(contributions: Contribution[], holdings: Holding[]) {
+        this.contributions = contributions;
+        this.holdings = holdings;
+    }
+
 }

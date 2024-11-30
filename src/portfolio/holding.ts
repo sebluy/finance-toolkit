@@ -9,4 +9,8 @@ export class Holding {
         this.shares = shares;
     }
 
+    isValid() {
+        return this.symbol !== '' && this.shares > 0;
+    }
+
 }

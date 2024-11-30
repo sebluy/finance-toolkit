@@ -16,6 +16,10 @@ export class Contribution {
         return dayjs().diff(this.date, 'year', true);
     }
 
+    isValid() {
+        return this.date.isValid() && this.amount > 0;
+    }
+
     static valueAtIRR(contributions: Contribution[], irr: number) {
         return contributions.reduce((sum, contribution) => {
             const holdingPeriod = contribution.holdingPeriod();
