@@ -63,6 +63,7 @@ const save = () => {
     toast.add({severity: 'success', summary: 'Success!', detail: 'Portfolio updated!', life: 3000});
 
     store.portfolios[store.editPortfolio.id].update(newContributions, newHoldings);
+    store.save();
     store.editPortfolio.visible = false;
 };
 

@@ -2,7 +2,6 @@
 
 import Chart, {ChartItem} from 'chart.js/auto'
 import {onMounted} from "vue";
-import {fakeContributions, portfolios} from "../../data/data.ts";
 import {min} from "lodash";
 import dayjs, {Dayjs} from "dayjs";
 import {Util} from "../Util.ts";

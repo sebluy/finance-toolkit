@@ -1,11 +1,11 @@
-import {Asset} from "./asset.ts";
 import {Contribution} from "./contribution.ts";
 import {Portfolio} from "#src/portfolio/portfolio.ts";
 import {Holding} from "#src/portfolio/holding.ts";
+import {AssetManager} from "#src/portfolio/asset-manager.ts";
 
 export class PortfolioReport {
     portfolio: Portfolio;
-    assets: Map<string, Asset>;
+    assetManager: AssetManager;
     contributions: number;
     value: number;
     irr: number;
@@ -16,9 +16,9 @@ export class PortfolioReport {
     cash: number;
     expenseRatio: number;
 
-    constructor(portfolio: Portfolio, assets: Map<string, Asset>) {
+    constructor(portfolio: Portfolio, assetManager: AssetManager) {
         this.portfolio = portfolio;
-        this.assets = assets;
+        this.assetManager = assetManager;
 
         this.contributions = this.portfolio.contributions.reduce((sum, c) => c.amount + sum, 0);
         this.value = this.presentValue();
@@ -41,27 +41,23 @@ export class PortfolioReport {
         holdings ??= this.portfolio.holdings;
 
         return holdings.reduce((sum, holding) => {
-            return sum + holding.shares * this.assetPrice(holding.symbol);
+            return sum + holding.shares * this.assetManager.get(holding.symbol).price;
         }, 0);
-    }
-
-    assetPrice(symbol: string): number {
-        return this.assets.get(symbol)?.price ?? 0;
-    }
-
-    assetExpenses(symbol: string): number {
-        return this.assets.get(symbol)?.expenseRatio ?? 0;
     }
 
     filterHoldingsByTag(tag: string): Holding[] {
         return this.portfolio.holdings.filter((holding) => {
-            return this.assets.get(holding.symbol)?.tags.includes(tag);
+            return this.assetManager.get(holding.symbol).tags.includes(tag);
         });
     }
 
     calculateExpenseRatio(): number {
         const expenses = this.portfolio.holdings.reduce((sum, holding) => {
-            return sum + holding.shares * this.assetPrice(holding.symbol) * this.assetExpenses(holding.symbol);
+            return sum + (
+                holding.shares *
+                this.assetManager.get(holding.symbol).price *
+                this.assetManager.get(holding.symbol).expenseRatio
+            );
         }, 0);
         return expenses / this.value;
     }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import {portfolios} from "../../data/data.ts";
 import Chart, {ChartItem} from 'chart.js/auto'
 import {onMounted} from "vue";
 

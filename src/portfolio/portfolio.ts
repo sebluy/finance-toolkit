@@ -15,6 +15,15 @@ export class Portfolio {
         this.contributions = contributions;
     }
 
+    static deserialize(o: any) {
+        return new Portfolio(
+            o.account,
+            o.tags,
+            o.holdings.map((h: any) => new Holding(h.symbol, h.shares)),
+            o.contributions.map((c: any) => new Contribution(c.date, c.amount))
+        );
+    }
+
     merge(other: Portfolio): Portfolio {
         return new Portfolio(
             'Total',

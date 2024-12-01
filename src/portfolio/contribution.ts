@@ -7,8 +7,8 @@ export class Contribution {
     date: Dayjs;
     amount: number;
 
-    constructor(date: string, amount: number) {
-        this.date = dayjs(date);
+    constructor(date: string|Dayjs, amount: number) {
+        this.date = date instanceof dayjs ? date : dayjs(date);
         this.amount = amount;
     }
 

@@ -2,7 +2,6 @@
 
 import Chart, {ChartItem} from 'chart.js/auto'
 import {onMounted} from "vue";
-import {portfolios} from "../../data/data.ts";
 
 const render = function () {
 
