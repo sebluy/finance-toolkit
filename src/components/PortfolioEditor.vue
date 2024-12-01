@@ -47,22 +47,22 @@ const addHolding = () => {
 };
 
 const save = () => {
-    const actualHoldings = holdings.value.map(h => new Holding(h.symbol, Number(h.shares)));
-    const actualContributions = contributions.value.map(c => new Contribution(c.date, Number(c.amount)));
+    const newHoldings = holdings.value.map(h => new Holding(h.symbol, Number(h.shares)));
+    const newContributions = contributions.value.map(c => new Contribution(c.date, Number(c.amount)));
 
-    if (actualHoldings.find(h => !h.isValid())) {
+    if (newHoldings.find(h => !h.isValid())) {
         toast.add({severity: 'error', summary: 'Error', detail: 'Invalid holding', life: 3000});
         return;
     }
 
-    if (actualContributions.find(c => !c.isValid())) {
+    if (newContributions.find(c => !c.isValid())) {
         toast.add({severity: 'error', summary: 'Error', detail: 'Invalid contribution', life: 3000});
         return;
     }
 
     toast.add({severity: 'success', summary: 'Success!', detail: 'Portfolio updated!', life: 3000});
 
-    store.portfolios[store.editPortfolio.id].update(actualContributions, actualHoldings);
+    store.portfolios[store.editPortfolio.id].update(newContributions, newHoldings);
     store.editPortfolio.visible = false;
 };
 

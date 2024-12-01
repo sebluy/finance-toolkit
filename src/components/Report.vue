@@ -32,7 +32,7 @@ const edit = (i: number) => {
         </thead>
         <tbody>
         <tr v-for="(report, i) in store.reports">
-            <td>{{ report.account }}<button @click="edit(i)">Edit</button></td>
+            <td>{{ report.portfolio.account }} <button @click="edit(i)">Edit</button></td>
             <td>{{ Util.formatCurrency(report.contributions) }}</td>
             <td>{{ Util.formatCurrency(report.value) }}</td>
             <td>{{ Util.formatPercent(report.irr) }}</td>

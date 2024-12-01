@@ -36,8 +36,8 @@ const coastFireAmt = computed(() => {
 
     <rent-vs-buy/>
     <contributions/>
-    <goal/>
-    <retirement-vs-taxable/>
+<!--    <goal/>-->
+<!--    <retirement-vs-taxable/>-->
 </template>
 
 <style scoped>
