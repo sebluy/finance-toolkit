@@ -14,6 +14,11 @@ interface State {
     editPortfolio: {
         visible: boolean,
         id: number,
+    },
+    sync: {
+        pending: boolean,
+        required: boolean,
+        accessToken: string,
     }
 }
 
@@ -28,6 +33,11 @@ export const useGlobalStore = defineStore('global', () => {
             visible: false,
             id: 0,
         },
+        sync: {
+            pending: false,
+            required: false,
+            accessToken: '',
+        },
     });
 
     const serialize = () => {
@@ -36,10 +46,15 @@ export const useGlobalStore = defineStore('global', () => {
             assetManager: state.assetManager?.serialize(),
             fakeContributions: state.fakeContributions,
             rentVsBuy: state.rentVsBuy,
+            sync: {
+                required: state.sync.required,
+                accessToken: state.sync.accessToken,
+            }
         };
     };
 
     const save = () => {
+        console.log('writing ft-data');
         localStorage.setItem('ft-data', JSON.stringify(serialize()));
     };
 
@@ -50,6 +65,8 @@ export const useGlobalStore = defineStore('global', () => {
         state.assetManager = AssetManager.deserialize(obj.assetManager);
         state.fakeContributions = obj.fakeContributions.map((c: Contribution) => new Contribution(c.date, c.amount));
         state.rentVsBuy = new Scenario(obj.rentVsBuy);
+        state.sync.required = obj.sync.required;
+        state.sync.accessToken = obj.sync.accessToken;
         await state.assetManager.fetchPrices();
         save();
     };

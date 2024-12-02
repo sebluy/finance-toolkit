@@ -1,14 +1,12 @@
 <script setup lang="ts">
 
 import {computed} from "vue";
-import Contributions from "./components/Contributions.vue";
-import Goal from "./components/Goal.vue";
-import RetirementVsTaxable from "./components/RetirementVsTaxable.vue";
 import Report from "./components/Report.vue";
-import RentVsBuy from "./components/RentVsBuy.vue";
 import dayjs from "dayjs";
 import {Util} from "./Util.ts";
 import {useGlobalStore} from "#src/stores/global.ts";
+import ExportButton from "#src/components/ExportButton.vue";
+import SyncButton from "#src/components/SyncButton.vue";
 
 const store = useGlobalStore();
 
@@ -21,21 +19,12 @@ const coastFireAmt = computed(() => {
     return currentTotal * Math.pow(realReturn, years) * 0.035;
 });
 
-const exportJSON = () => {
-    const json = JSON.stringify(store.serialize(), null, 4);
-    const data = "data:text/json;charset=utf-8," + encodeURIComponent(json);
-    const el = document.createElement('a');
-    el.setAttribute('href', data);
-    el.setAttribute('download', 'finance-toolkit.json');
-    document.body.appendChild(el);
-    el.click();
-    el.remove();
-}
 
 </script>
 
 <template>
-    <button @click="exportJSON()">Export</button>
+    <export-button/>
+    <sync-button/>
     <report/>
 
     <div v-if="store.reports">
