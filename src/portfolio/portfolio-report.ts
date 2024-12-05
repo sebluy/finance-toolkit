@@ -45,9 +45,10 @@ export class PortfolioReport {
         }, 0);
     }
 
-    filterHoldingsByTag(tag: string): Holding[] {
+    filterHoldingsByTag(...tags: string[]): Holding[] {
         return this.portfolio.holdings.filter((holding) => {
-            return this.assetManager.get(holding.symbol).tags.includes(tag);
+            const asset = this.assetManager.get(holding.symbol);
+            return tags.every((tag) => asset.tags.includes(tag));
         });
     }
 

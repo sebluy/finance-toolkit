@@ -7,6 +7,7 @@ import {Util} from "./Util.ts";
 import {useGlobalStore} from "#src/stores/global.ts";
 import ExportButton from "#src/components/ExportButton.vue";
 import SyncButton from "#src/components/SyncButton.vue";
+import DoughnutChartByTag from "#src/components/DoughnutChartByTag.vue";
 
 const store = useGlobalStore();
 
@@ -18,7 +19,6 @@ const coastFireAmt = computed(() => {
     const realReturn = 1.03;
     return currentTotal * Math.pow(realReturn, years) * 0.035;
 });
-
 
 </script>
 
@@ -34,6 +34,27 @@ const coastFireAmt = computed(() => {
         <h1>Coast FIRE Amount</h1>
         <p>{{ Util.formatCurrency(coastFireAmt) }}</p>
     </div>
+
+    <doughnut-chart-by-tag
+        title="Asset Allocation"
+        :total="[]"
+        :categories="['Equity', 'Fixed', 'Cash']"
+        :tags="[['equity'], ['fixed'], ['cash']]"
+    />
+
+    <doughnut-chart-by-tag
+        title="Equity Allocation"
+        :total="['equity']"
+        :categories="['Domestic', 'International']"
+        :tags="[['equity', 'domestic'], ['equity', 'international']]"
+    />
+
+    <doughnut-chart-by-tag
+        title="Fixed Allocation"
+        :total="['fixed']"
+        :categories="['Domestic', 'International']"
+        :tags="[['fixed', 'domestic'], ['fixed', 'international']]"
+    />
 
 <!--    <rent-vs-buy/>-->
 <!--    <contributions/>-->
