@@ -7,25 +7,33 @@ import {Dropbox} from "dropbox";
 const store = useGlobalStore();
 const toast = useToast();
 
-const sync = () => {
+const sync = async () => {
     store.sync.pending = true;
 
-    const dbx = new Dropbox({accessToken: store.sync.accessToken});
+    try {
+        const dbx = new Dropbox({
+            clientId: store.sync.clientId,
+            clientSecret: store.sync.clientSecret,
+        });
+        dbx.auth.setRefreshToken(store.sync.refreshToken);
 
-    dbx.filesUpload({
-        path: '/Apps/FinanceToolkit/finance-data.json',
-        contents: JSON.stringify(store.serialize()),
-        autorename: true,
-    }).then((response: any) => {
+        const response = await dbx.filesUpload({
+            path: '/Apps/FinanceToolkit/finance-data.json',
+            contents: JSON.stringify(store.serialize()),
+            autorename: true,
+        })
+
         console.log(response);
         store.sync.pending = false;
         store.sync.required = false;
         store.save();
         toast.add({severity: 'success', summary: 'Success!', detail: 'Data synced!', life: 3000});
-    }).catch((err: any) => {
+    } catch (err: any) {
         console.log(err);
+        store.sync.pending = false;
+        store.save();
         toast.add({severity: 'error', summary: 'Error!', detail: 'Something went wrong...', life: 3000});
-    });
+    }
 
 };
 

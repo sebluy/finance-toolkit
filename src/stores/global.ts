@@ -18,7 +18,9 @@ interface State {
     sync: {
         pending: boolean,
         required: boolean,
-        accessToken: string,
+        clientId: string,
+        clientSecret: string,
+        refreshToken: string,
     }
 }
 
@@ -36,7 +38,9 @@ export const useGlobalStore = defineStore('global', () => {
         sync: {
             pending: false,
             required: false,
-            accessToken: '',
+            clientId: '',
+            clientSecret: '',
+            refreshToken: '',
         },
     });
 
@@ -48,7 +52,9 @@ export const useGlobalStore = defineStore('global', () => {
             rentVsBuy: state.rentVsBuy,
             sync: {
                 required: state.sync.required,
-                accessToken: state.sync.accessToken,
+                clientId: state.sync.clientId,
+                clientSecret: state.sync.clientSecret,
+                refreshToken: state.sync.refreshToken,
             }
         };
     };
@@ -66,7 +72,9 @@ export const useGlobalStore = defineStore('global', () => {
         state.fakeContributions = obj.fakeContributions.map((c: Contribution) => new Contribution(c.date, c.amount));
         state.rentVsBuy = new Scenario(obj.rentVsBuy);
         state.sync.required = obj.sync.required;
-        state.sync.accessToken = obj.sync.accessToken;
+        state.sync.clientId = obj.sync.clientId;
+        state.sync.clientSecret = obj.sync.clientSecret;
+        state.sync.refreshToken = obj.sync.refreshToken;
         await state.assetManager.fetchPrices();
         save();
     };
