@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import Chart, {ChartItem} from 'chart.js/auto'
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {onMounted, useId} from "vue";
 import {useGlobalStore} from "#src/stores/global.ts";
 import {PortfolioReport} from "#src/portfolio/portfolio-report.ts";
 import {AssetManager} from "#src/portfolio/asset-manager.ts";
-import ChartDataLabels from "chartjs-plugin-datalabels";
 
 const store = useGlobalStore();
 const props = defineProps<{
@@ -18,12 +18,16 @@ const id = useId();
 
 const render = () => {
 
-    const merged = store.portfolios.reduce((t, p) => t.merge(p));
-    const totalReport = new PortfolioReport(merged, <AssetManager>store.assetManager);
+    const values = props.tags.map(tagList => {
+        const portfolios = store.portfolios.filter(portfolio => {
+            return tagList.every(tag => portfolio.tags.includes(tag))
+        });
 
-    const values = props.tags.map((tagList) => {
-        return totalReport.presentValue(totalReport.filterHoldingsByTag(...tagList));
-    })
+        const merged = portfolios.reduce((t, p) => t.merge(p));
+        const report = new PortfolioReport(merged, <AssetManager>store.assetManager);
+
+        return report.value;
+    });
 
     const canvas = document.getElementById(id);
 

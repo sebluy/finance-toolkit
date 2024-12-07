@@ -8,6 +8,8 @@ import {useGlobalStore} from "#src/stores/global.ts";
 import ExportButton from "#src/components/ExportButton.vue";
 import SyncButton from "#src/components/SyncButton.vue";
 import DoughnutChartByTag from "#src/components/DoughnutChartByTag.vue";
+import DoughnutChartByPortfolioTag from "#src/components/DoughnutChartByPortfolioTag.vue";
+import ContributionsByYear from "#src/components/ContributionsByYear.vue";
 
 const store = useGlobalStore();
 
@@ -37,29 +39,39 @@ const coastFireAmt = computed(() => {
 
     <doughnut-chart-by-tag
         title="Asset Allocation"
-        :total="[]"
         :categories="['Equity', 'Fixed', 'Cash']"
         :tags="[['equity'], ['fixed'], ['cash']]"
     />
 
     <doughnut-chart-by-tag
         title="Equity Allocation"
-        :total="['equity']"
         :categories="['Domestic', 'International']"
         :tags="[['equity', 'domestic'], ['equity', 'international']]"
     />
 
     <doughnut-chart-by-tag
         title="Fixed Allocation"
-        :total="['fixed']"
         :categories="['Domestic', 'International']"
         :tags="[['fixed', 'domestic'], ['fixed', 'international']]"
     />
 
+    <doughnut-chart-by-portfolio-tag
+        title="Retirement vs Taxable"
+        :categories="['Retirement', 'Taxable']"
+        :tags="[['retirement'], ['taxable']]"
+    />
+
+    <doughnut-chart-by-portfolio-tag
+        title="Roth vs Traditional"
+        :categories="['Roth', 'Traditional']"
+        :tags="[['roth'], ['traditional']]"
+    />
+
+    <contributions-by-year/>
+
 <!--    <rent-vs-buy/>-->
 <!--    <contributions/>-->
 <!--    <goal/>-->
-<!--    <retirement-vs-taxable/>-->
 </template>
 
 <style scoped>

@@ -18,6 +18,7 @@ const store = useGlobalStore();
 const toast = useToast();
 const contributions: Ref<EditableContribution[]> = ref([]);
 const holdings: Ref<Holding[]> = ref([]);
+const tags = ref('');
 
 const reset = () => {
     const portfolio = store.portfolios[store.editPortfolio.id];
@@ -25,7 +26,8 @@ const reset = () => {
         c => ({date: Util.formatDate(c.date), amount: c.amount})
     );
     holdings.value = cloneDeep(portfolio.holdings);
-}
+    tags.value = portfolio.tags.join(', ');
+};
 
 watch(() => store.editPortfolio.id, reset);
 reset();
@@ -49,6 +51,7 @@ const addHolding = () => {
 const save = () => {
     const newHoldings = holdings.value.map(h => new Holding(h.symbol, Number(h.shares)));
     const newContributions = contributions.value.map(c => new Contribution(c.date, Number(c.amount)));
+    const newTags = tags.value.split(',').map(t => t.trim());
 
     if (newHoldings.find(h => !h.isValid())) {
         toast.add({severity: 'error', summary: 'Error', detail: 'Invalid holding', life: 3000});
@@ -62,7 +65,7 @@ const save = () => {
 
     toast.add({severity: 'success', summary: 'Success!', detail: 'Portfolio updated!', life: 3000});
 
-    store.portfolios[store.editPortfolio.id].update(newContributions, newHoldings);
+    store.portfolios[store.editPortfolio.id].update(newTags, newContributions, newHoldings);
     store.sync.required = true;
     store.save();
     store.editPortfolio.visible = false;
@@ -73,6 +76,10 @@ const save = () => {
 <template>
     <Toast/>
     <Dialog v-model:visible="store.editPortfolio.visible" modal header="Edit Portfolio">
+
+        <h4>Tags</h4>
+
+        <input v-model="tags"/>
 
         <h4>Contributions</h4>
 
