@@ -11,8 +11,10 @@
   "dependencies": {
     "@primevue/themes": "^4.2.4",
     "chart.js": "^4.4.3",
+    "chartjs-adapter-dayjs-4": "^1.0.4",
     "chartjs-plugin-datalabels": "^2.2.0",
-    "dayjs": "^1.11.12",
+    "dayjs": "^1.11.13",
+    "dexie": "^4.0.10",
     "dropbox": "^10.34.0",
     "lodash": "^4.17.21",
     "pinia": "^2.2.8",

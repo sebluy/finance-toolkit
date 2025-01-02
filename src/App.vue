@@ -10,6 +10,7 @@ import SyncButton from "#src/components/SyncButton.vue";
 import DoughnutChartByTag from "#src/components/DoughnutChartByTag.vue";
 import DoughnutChartByPortfolioTag from "#src/components/DoughnutChartByPortfolioTag.vue";
 import ContributionsByYear from "#src/components/ContributionsByYear.vue";
+import NetWorthOverTime from "#src/components/NetWorthOverTime.vue";
 
 const store = useGlobalStore();
 
@@ -68,6 +69,8 @@ const coastFireAmt = computed(() => {
     />
 
     <contributions-by-year/>
+
+    <net-worth-over-time/>
 
 <!--    <rent-vs-buy/>-->
 <!--    <contributions/>-->

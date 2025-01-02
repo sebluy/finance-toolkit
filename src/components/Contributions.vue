@@ -32,22 +32,21 @@ const render = function () {
     if (!element) return;
 
     new Chart(element as ChartItem, {
-            type: 'line',
-            data: {
-                labels: months,
-                datasets: [
-                    {
-                        label: 'Contributions by month',
-                        data: values,
-                    },
-                    {
-                        label: 'Rolling 12 Month Average',
-                        data: rolling12,
-                    }
-                ]
-            }
-        }
-    );
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [
+                {
+                    label: 'Contributions by month',
+                    data: values,
+                },
+                {
+                    label: 'Rolling 12 Month Average',
+                    data: rolling12,
+                }
+            ]
+        },
+    });
 };
 
 onMounted(() => render());
