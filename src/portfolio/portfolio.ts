@@ -33,7 +33,8 @@ export class Portfolio {
         );
     }
 
-    update(tags: string[], contributions: Contribution[], holdings: Holding[]) {
+    update(account: string, tags: string[], contributions: Contribution[], holdings: Holding[]) {
+        this.account = account;
         this.tags = tags;
         this.contributions = contributions;
         this.holdings = holdings;

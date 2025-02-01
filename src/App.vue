@@ -11,6 +11,7 @@ import DoughnutChartByTag from "#src/components/DoughnutChartByTag.vue";
 import DoughnutChartByPortfolioTag from "#src/components/DoughnutChartByPortfolioTag.vue";
 import ContributionsByYear from "#src/components/ContributionsByYear.vue";
 import NetWorthOverTime from "#src/components/NetWorthOverTime.vue";
+import AssetEditor from "#src/components/AssetEditor.vue";
 
 const store = useGlobalStore();
 
@@ -28,11 +29,15 @@ const coastFireAmt = computed(() => {
 <template>
     <export-button/>
     <sync-button/>
+
+    <button @click="store.editAssets.visible = true">Edit Assets</button>
+    <asset-editor/>
+
     <report/>
 
     <div v-if="store.reports">
         <h1>Safe Withdrawal Amount</h1>
-        <p>{{ Util.formatCurrency(store.reports[store.reports.length - 1].value * 0.025) }}</p>
+        <p>{{ Util.formatCurrency(store.reports[store.reports.length - 1].value * 0.033) }}</p>
 
         <h1>Coast FIRE Amount</h1>
         <p>{{ Util.formatCurrency(coastFireAmt) }}</p>

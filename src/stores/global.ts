@@ -15,6 +15,9 @@ interface State {
         visible: boolean,
         id: number,
     },
+    editAssets: {
+        visible: boolean,
+    },
     sync: {
         pending: boolean,
         required: boolean,
@@ -34,6 +37,9 @@ export const useGlobalStore = defineStore('global', () => {
         editPortfolio: {
             visible: false,
             id: 0,
+        },
+        editAssets: {
+            visible: false,
         },
         sync: {
             pending: false,
@@ -88,15 +94,6 @@ export const useGlobalStore = defineStore('global', () => {
         rs.push(new PortfolioReport(merged, state.assetManager));
         return rs;
     });
-
-    // Asset.fetchPrices([...assets.values()], alphaVantageApiKey).then(() => {
-    //     pricesLoaded.value = true;
-    //     save();
-    // });
-
-
-
-    // save();
 
     return {
         ...state,

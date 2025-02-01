@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import {saveNetWorth, getNetWorthOverTime, NetWorthLog} from "#src/db.ts";
 
 const store = useGlobalStore();
+let chart: Chart|undefined = undefined;
 
 const render = function (log: NetWorthLog[]) {
 
@@ -14,7 +15,11 @@ const render = function (log: NetWorthLog[]) {
 
     if (!element) return;
 
-    new Chart(element as ChartItem, {
+    if (chart) {
+        chart.destroy();
+    }
+
+    chart = new Chart(element as ChartItem, {
         type: 'line',
         data: {
             labels: log.map(l => l.date),
@@ -27,6 +32,9 @@ const render = function (log: NetWorthLog[]) {
         },
         options: {
             scales: {
+                y: {
+                    beginAtZero: true,
+                },
                 x: {
                     type: 'time',
                     time: {
@@ -41,6 +49,7 @@ const render = function (log: NetWorthLog[]) {
 const capture = () => {
     const total = store.reports[store.reports.length - 1];
     saveNetWorth(dayjs().format('YYYY-MM-DD'), total.value);
+    initialize();
 };
 
 const initialize = async () => {

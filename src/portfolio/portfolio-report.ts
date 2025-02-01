@@ -9,6 +9,7 @@ export class PortfolioReport {
     contributions: number;
     value: number;
     irr: number;
+    realIrr: number;
     domestic: number;
     international: number;
     equity: number;
@@ -29,6 +30,7 @@ export class PortfolioReport {
         const cash = this.presentValue(this.filterHoldingsByTag('cash'));
 
         this.irr = Contribution.findIRR(this.portfolio.contributions, this.value);
+        this.realIrr = Contribution.findRealIRR(this.portfolio.contributions, this.value);
         this.domestic = domestic / this.value;
         this.international = international / this.value;
         this.equity = equity / this.value;

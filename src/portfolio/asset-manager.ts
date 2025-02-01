@@ -31,10 +31,6 @@ export class AssetManager {
 
     async fetchPrice(symbol: string) {
 
-        if (symbol === 'CASH') {
-            return 1.0;
-        }
-
         const url =
             `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${this.apiKey}`;
         try {
@@ -52,6 +48,7 @@ export class AssetManager {
         console.log('fetching prices');
         this.lastUpdated = dayjs();
         return Promise.all([...this.assets.values()].map(async (asset) => {
+            if (asset.symbol.startsWith('!')) return;
             asset.price = await this.fetchPrice(asset.symbol);
         }));
     }
@@ -68,6 +65,10 @@ export class AssetManager {
 
     get(symbol: string): Asset {
         return this.assets.get(symbol) || new Asset(symbol, [], 0, 0);
+    }
+
+    update(assets: Asset[]) {
+        this.assets = this.makeMap(assets);
     }
 
 }
